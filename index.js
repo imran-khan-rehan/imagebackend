@@ -1,6 +1,6 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
-import cors from 'cors';
+//import cors from 'cors';
 
 import connectDB from './mongodb/connect.js';
 import postRoutes from './routes/postRoutes.js';
@@ -9,10 +9,10 @@ import userRoutes from './routes/userRoutes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:5173', // Update this with your frontend origin
-  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
-}));
+// app.use(cors({
+//   origin: 'http://localhost:5173', // Update this with your frontend origin
+//   optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+// }));
 app.use(express.json({ limit: '50mb' }));
 
 app.use('/api/v1/post', postRoutes);
