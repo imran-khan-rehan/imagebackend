@@ -9,12 +9,33 @@ import userRoutes from './routes/userRoutes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:5173', // Replace with your frontend origin
+// app.use(cors({
+//   origin: 'http://localhost:5173', // Replace with your frontend origin
+//   methods: 'GET,PUT,POST,DELETE',
+//   allowedHeaders: 'Content-Type,Authorization,userid',
+// }));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://image-generator-frontend-neon.vercel.app'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check if the origin is in the list of allowed origins
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,PUT,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization,userid',
-}));
+};
 
+app.use(cors(corsOptions));
 // app.use(cors({
 //   origin: 'http://localhost:5173', // Update this with your frontend origin
 //   optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
